@@ -35,14 +35,6 @@ module SpreeCoreSeo
         	end
       	end
     	end
-
-      Product.class_eval do
-        attr_accessor :title_tag
-      end
-
-      Taxon.class_eval do
-        attr_accessor :title_tag
-      end
       
 			ProductsController.class_eval do
         #before_filter :find_seo_title, :only => :show
