@@ -62,9 +62,11 @@ module SpreeCoreSeo
     	TaxonsController.class_eval do
         #before_filter :find_seo_title, :only => :show
       	def title
-    	    if defined?(@taxon.title_tag)
-  	        @title = @taxon.title_tag if @taxon.title_tag.present?
-	        end
+    	    if defined?(@taxon.title_tag) && @taxon.title_tag.present?
+  	        @title = @taxon.title_tag
+          else
+            @title = @taxon.name
+          end
       	end
     	end
 
