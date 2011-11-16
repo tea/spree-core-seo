@@ -1,5 +1,5 @@
-<h1>Sitemap</h1>
-<%= link_to 'Homepage', @public_dir %><br />
+<h1><%= t("sitemap") %></h1>
+<%= link_to t("homepage_title"), @public_dir %><br />
 <% @nav.sort.each do |k,v| -%>
   <% unless v['depth'].blank? -%>
     <% v['depth'].times do -%>&nbsp;&nbsp;<% end -%>
