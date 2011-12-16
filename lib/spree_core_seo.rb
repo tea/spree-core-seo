@@ -51,17 +51,6 @@ module SpreeCoreSeo
   	    end
 	    end
 
-      Admin::ProductsController.class_eval do
-        protected
-        def update_before
-          # hack to get title tags to set
-          @product.title_tag = params[:product][:title_tag] if defined?(@product) and params[:product] and params[:product][:title_tag]
-          # note: we only reset the product properties if we're receiving a post from the form on that tab
-          return unless params[:clear_product_properties]
-          params[:product] ||= {}
-        end
-      end
-
     	TaxonsController.class_eval do
         #before_filter :find_seo_title, :only => :show
       	def title
