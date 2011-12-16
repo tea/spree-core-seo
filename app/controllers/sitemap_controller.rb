@@ -1,13 +1,12 @@
 class SitemapController < Spree::BaseController
   def index
     @public_dir = "http://www.#{Spree::Config[:site_url]}/"
+    @nav = _add_products_to_tax(_build_taxon_hash, true)
+    @nav = _add_static_pages(@nav) if defined?(SpreeStaticContent)
     respond_to do |format|
-      format.html { @nav = _add_products_to_tax(_build_taxon_hash, true) }
-      format.xml { render :layout => false, :xml => _build_xml(_add_products_to_tax(_build_taxon_hash, true), @public_dir) }
-      format.text do
-        @nav = _add_products_to_tax(_build_taxon_hash, true)
-        render :layout => false
-      end
+      format.html
+      format.xml { render :layout => false, :xml => _build_xml(@nav, @public_dir) }
+      format.text { render :layout => false }
     end
   end
 
@@ -109,5 +108,17 @@ class SitemapController < Spree::BaseController
       end
     end
     products
+  end
+
+  def _add_static_pages(nav)
+    Page.visible.each do |page|
+      pinfo = Hash.new
+      pinfo['name'] = page.title
+      pinfo['link'] = page.slug.gsub(/^\//, '')
+      pinfo['updated'] = page.updated_at
+      nav[pinfo['link']] = pinfo
+    end
+
+    nav
   end
 end
