@@ -43,9 +43,9 @@ module SpreeCoreSeo
     	      @title = Spree::Config[:homepage_title] if Spree::Config[:homepage_title].present?
   	      end
 
-	        if defined?(@product.title_tag) && @product.title_tag.present?
+	        if @product && defined?(@product.title_tag) && @product.title_tag.present?
         	  @title = @product.title_tag.html_safe
-          else
+          elsif @product
             @title = @product.name
           end
   	    end
