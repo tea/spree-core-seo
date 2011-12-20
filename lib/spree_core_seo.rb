@@ -36,33 +36,29 @@ module SpreeCoreSeo
       	end
     	end
       
-			ProductsController.class_eval do
-        #before_filter :find_seo_title, :only => :show
-	      def title
-      	  if defined?(request) and request.fullpath == "/"
-    	      @title = Spree::Config[:homepage_title] if Spree::Config[:homepage_title].present?
-  	      end
-
-	        if @product && defined?(@product.title_tag) && @product.title_tag.present?
-        	  @title = @product.title_tag.html_safe
+      ProductsController.class_eval do
+        def accurate_title
+          if @product && defined?(@product.title_tag) && @product.title_tag.present?
+            @product.title_tag.html_safe
           elsif @product
-            @title = @product.name
+            @product.name
+          elsif defined?(request) and request.fullpath == "/"
+            Spree::Config[:homepage_title] if Spree::Config[:homepage_title].present?
           end
-  	    end
-	    end
+        end
+      end
 
-    	TaxonsController.class_eval do
-        #before_filter :find_seo_title, :only => :show
-      	def title
-    	    if defined?(@taxon.title_tag) && @taxon.title_tag.present?
-  	        @title = @taxon.title_tag
+      TaxonsController.class_eval do
+        def accurate_title
+          if defined?(@taxon.title_tag) && @taxon.title_tag.present?
+            @taxon.title_tag
           else
-            @title = @taxon.name
+            @taxon.name
           end
-      	end
-    	end
+        end
+      end
 
-			Dir.glob(File.join(File.dirname(__FILE__), "../app/**/*_decorator*.rb")) do |c|
+      Dir.glob(File.join(File.dirname(__FILE__), "../app/**/*_decorator*.rb")) do |c|
         Rails.env.production? ? require(c) : load(c)
       end
     end
