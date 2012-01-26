@@ -18,7 +18,7 @@ class SitemapController < Spree::BaseController
       xml.urlset( :xmlns => "http://www.sitemaps.org/schemas/sitemap/0.9", 'xmlns:image' =>"http://www.google.com/schemas/sitemap-image/1.1", 'xmlns:xsi' => "http://www.w3.org/2001/XMLSchema-instance", 'xsi:schemaLocation' => "http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" ) {
         xml.url {
           xml.loc public_dir
-          xml.lastmod Date.today
+          xml.lastmod Time.zone.now.xmlschema
           xml.changefreq 'weekly'
           xml.priority '1.0'
         }
